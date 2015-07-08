@@ -1,0 +1,14 @@
+{
+  "name": "distrelec-test",
+  "version": "1.0.0",
+  "description": "distrelec cdn test",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "author": "anthony barré Fasterize",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.13.1"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "name": "Distrelec project",
+  "description": "Distrelec project using Express 4",
+  "logo": "http://node-js-sample.herokuapp.com/node.svg",
+  "keywords": ["node", "express", "static"]
+}
