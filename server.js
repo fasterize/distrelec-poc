@@ -13,23 +13,25 @@ app.get('/', function(req, res) {
   console.log(req.headers);
 
   if (req.cookies.variation) {
+    //It's possible to cache this response since the variation of the page is known
     variation = req.cookies.variation;
     res.append('Cache-Control', 'public, max-age=300');
   }
   else {
+    //It's not possible to cache this response since the variation of the page is known
     variation = "FR_PRICE" + (Math.random());
     res.append('Cache-Control', 'private, max-age=0');
   }
 
+  //header found in distrelec.com
   res.append('Content-Language', 'en-CH');
   res.append('Content-Type', 'text/html;charset=UTF-8');
   res.append('Date', 'Wed, 08 Jul 2015 15:44:05 GMT');
   res.append('P3P', 'CP="This is not a P3P policy! See http://www.distrelec.ch/cms/p3p for more info."');
+  res.append('Vary', 'User-Agent');
 
   res.append('Set-Cookie', 'JSESSIONID=08A03FE57316B6178D726DF513577B66; Path=/; HttpOnly');
   res.append('Set-Cookie', 'variation=' + variation + ';shopSettings="channel:B2B,language:en,country:CH,cookieMessageConfirmed:false,useTechnicalView:false,autoApplyFilter:false"; Version=1; Max-Age=604800; Expires=Wed, 15-Jul-2015 15:44:05 GMT; Path=/');
-
-  res.append('Vary', 'User-Agent');
 
   res.send('Hello world : ' + variation);
 });
