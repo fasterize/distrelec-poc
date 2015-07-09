@@ -26,12 +26,9 @@ app.get('/', function(req, res) {
   res.append('Date', 'Wed, 08 Jul 2015 15:44:05 GMT');
   res.append('P3P', 'CP="This is not a P3P policy! See http://www.distrelec.ch/cms/p3p for more info."');
 
-  console.log(req.cookies.variation);
-  if (!req.cookies.variation) {
-    console.log("ADD COOKIE");
-    res.append('Set-Cookie', 'JSESSIONID=08A03FE57316B6178D726DF513577B66; Path=/; HttpOnly');
-    res.append('Set-Cookie', 'variation=' + variation + ';shopSettings="channel:B2B,language:en,country:CH,cookieMessageConfirmed:false,useTechnicalView:false,autoApplyFilter:false"; Version=1; Max-Age=604800; Expires=Wed, 15-Jul-2015 15:44:05 GMT; Path=/');
-  }
+  res.append('Set-Cookie', 'JSESSIONID=08A03FE57316B6178D726DF513577B66; Path=/; HttpOnly');
+  res.append('Set-Cookie', 'variation=' + variation + ';shopSettings="channel:B2B,language:en,country:CH,cookieMessageConfirmed:false,useTechnicalView:false,autoApplyFilter:false"; Version=1; Max-Age=604800; Expires=Wed, 15-Jul-2015 15:44:05 GMT; Path=/');
+
   res.append('Vary', 'User-Agent');
 
   res.send('Hello world : ' + variation);
