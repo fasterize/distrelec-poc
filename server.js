@@ -14,9 +14,11 @@ app.get('/', function(req, res) {
 
   if (req.cookies.variation) {
     variation = req.cookies.variation;
+    res.append('Cache-Control', 'public, max-age=300');
   }
   else {
     variation = "FR_PRICE" + (Math.random());
+    res.append('Cache-Control', 'private, max-age=0');
   }
 
   res.append('Content-Language', 'en-CH');
@@ -24,6 +26,7 @@ app.get('/', function(req, res) {
   res.append('Date', 'Wed, 08 Jul 2015 15:44:05 GMT');
   res.append('P3P', 'CP="This is not a P3P policy! See http://www.distrelec.ch/cms/p3p for more info."');
 
+  console.log(req.cookies.variation);
   if (!req.cookies.variation) {
     console.log("ADD COOKIE");
     res.append('Set-Cookie', 'JSESSIONID=08A03FE57316B6178D726DF513577B66; Path=/; HttpOnly');
