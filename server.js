@@ -18,7 +18,7 @@ app.get('/', function(req, res) {
     res.append('Cache-Control', 'public, max-age=300');
   }
   else {
-    //It's not possible to cache this response since the variation of the page is known
+    //It's not possible to cache this response since the variation of the page is unknown
     variation = "FR_PRICE" + (Math.random());
     res.append('Cache-Control', 'private, max-age=0');
   }
