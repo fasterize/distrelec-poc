@@ -6,6 +6,12 @@ app.use(cookieParser());
 // public folder to store assets
 app.use(express.static(__dirname + '/public'));
 
+var loggedIn=false;
+
+function computeVariation () {
+  return "FR_PRICE" + (Math.random()) + (loggedIn ? "logged" : "unlogged");
+}
+
 // routes for app
 app.get('/', function(req, res) {
   var variation;
@@ -15,11 +21,14 @@ app.get('/', function(req, res) {
   if (req.cookies.variation) {
     //It's possible to cache this response since the variation of the page is known
     variation = req.cookies.variation;
-    res.append('Cache-Control', 'public, max-age=300');
+    if (loggedIn)
+      res.append('Cache-Control', 'private, max-age=0');
+    else
+      res.append('Cache-Control', 'public, max-age=300');
   }
   else {
-    //It's not possible to cache this response since the variation of the page is unknown
-    variation = "FR_PRICE" + (Math.random());
+    //It's not possible to cache this response since the variation of the page is known
+    variation = computeVariation();
     res.append('Cache-Control', 'private, max-age=0');
   }
 
@@ -31,8 +40,22 @@ app.get('/', function(req, res) {
   res.append('Vary', 'User-Agent');
 
   res.append('Set-Cookie', 'JSESSIONID=08A03FE57316B6178D726DF513577B66; Path=/; HttpOnly');
-  res.append('Set-Cookie', 'variation=' + variation + ';shopSettings="channel:B2B,language:en,country:CH,cookieMessageConfirmed:false,useTechnicalView:false,autoApplyFilter:false"; Version=1; Max-Age=604800; Expires=Wed, 15-Jul-2015 15:44:05 GMT; Path=/');
+  res.append('Set-Cookie', 'variation=' + variation);
 
+  res.send('Hello world : ' + variation);
+});
+
+app.post('/loggedin', function (req, res) {
+  loggedIn = true;
+  var variation = computeVariation();
+  res.append('Set-Cookie', 'variation=' + variation);
+  res.send('Hello world : ' + variation);
+});
+
+app.post('/loggedout', function (req, res) {
+  loggedIn = false;
+  var variation = computeVariation();
+  res.append('Set-Cookie', 'variation=' + variation);
   res.send('Hello world : ' + variation);
 });
 
